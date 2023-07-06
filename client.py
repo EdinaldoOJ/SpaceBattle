@@ -5,12 +5,14 @@ import time
 import pygame.event
 import game
 from ImageLabel import ImageLabel
+from PIL import ImageTk, Image
 from constants import SERVER_IP, SERVER_PORT, LOADING_IMG, WHITE_CONTROLS, BLACK_CONTROLS
 import chatlib
 import tkinter as tk
 from tkinter import messagebox
 import ipaddress
 import os
+import constants
 
 
 pygame.mixer.init()
@@ -69,7 +71,7 @@ class Client:
         
         # Criando uma janela Tkinter
         root = tk.Tk()
-        root.title("Game Startup")
+        root.title("SpaceBattle - UESC")
         screen_width = root.winfo_screenwidth()
         screen_height = root.winfo_screenheight()
         startup_width = 400
@@ -80,6 +82,16 @@ class Client:
         root.configure(bg='#777')
         root.resizable(False, False)
 
+        # Carregando a imagem de fundo
+        background_image = Image.open(constants.BACKGROUND_IMG)
+        background_image = background_image.resize((startup_width, startup_height))
+        background = ImageTk.PhotoImage(background_image)
+
+        # Exibindo a imagem de fundo
+        background_label = tk.Label(root, image=background)
+        background_label.place(x=0, y=0, relwidth=1, relheight=1)
+        background_label.image = background
+
         # Adicionando widgets
         tk.Label(root, text='', bg='#777').pack()
         heading = tk.Label(root, text="SpaceBattle 🛩", font=('Calibri Bold', 40), bg='#777')
@@ -89,7 +101,7 @@ class Client:
         tk.Label(root, text='', bg='#777').pack()
         tk.Label(root, text='', bg='#777').pack()
         ip = tk.Entry(root, width=25, fg='black', border=0, bg='#777', font=('Microsoft YaHei UI Light', 14))
-        ip.insert(0, 'Server IP')
+        ip.insert(0, 'IP do Servidor')
         ip.pack()
 
         def on_enter_ip(event):
@@ -98,7 +110,7 @@ class Client:
         def on_leave_ip(event):
             name = ip.get()
             if name == '':
-                ip.insert(0, 'Server IP')
+                ip.insert(0, 'IP do Servidor')
 
         ip.bind('<FocusIn>', on_enter_ip)
         ip.bind('<FocusOut>', on_leave_ip)
@@ -107,7 +119,7 @@ class Client:
         tk.Label(root, text='', bg='#777').pack()
         tk.Label(root, text='', bg='#777').pack()
         port = tk.Entry(root, width=25, fg='black', border=0, bg='#777', font=('Microsoft YaHei UI Light', 14))
-        port.insert(0, 'Server port')
+        port.insert(0, 'Porta')
         port.pack()
 
         def on_enter_port(event):
@@ -116,7 +128,7 @@ class Client:
         def on_leave_port(event):
             name = port.get()
             if name == '':
-                port.insert(0, 'Server port')
+                port.insert(0, 'Porta')
 
         port.bind('<FocusIn>', on_enter_port)
         port.bind('<FocusOut>', on_leave_port)
@@ -133,7 +145,7 @@ class Client:
             global destroy_screen
             cmd, data = self.recv_message_and_parse()
             if cmd != chatlib.PROTOCOL_SERVER['game_starting_message']:
-                messagebox.showerror("Game Start Error", "Error while waiting for another player to connect.")
+                messagebox.showerror("Game Start Error", "Erro enquanto esperava o jogador conectar.")
                 result.append(True)
                 connect_and_start()
             result.append(True)
@@ -150,11 +162,11 @@ class Client:
             try:
                 ipaddress.ip_address(ip_txt)
             except:
-                messagebox.showerror("Invalid IP", "This IP address is invalid")
+                messagebox.showerror("Invalid IP", "IP Invalido")
                 return
             self.server_ip = ip_txt
             if not port_txt.isnumeric() or port_txt == '' or port_txt is None or not 0 <= int(port_txt) <= 65535:
-                messagebox.showerror("Type Error", "Port must be a number between 0 and 65,535")
+                messagebox.showerror("Type Error", "Porta tem que ser um numero entre 0 e 65535")
                 return
             self.server_port = int(port_txt)
 

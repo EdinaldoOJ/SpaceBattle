@@ -35,9 +35,9 @@ class Server:
             address = (self.listen_ip, self.port)
             self.__server_socket.bind(address)
             self.__server_socket.listen()
-            print("[SERVER] Listening for connections...")
+            print("[SERVER] Escutando conexões...")
         except socket.error as e:
-            print("[SERVER] An error occurred:", str(e))
+            print("[SERVER] Ocorreu um erro:", str(e))
             exit()
 
     def build_and_send_message(self, client_socket: socket.socket, command: str, data: str) -> None:
