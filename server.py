@@ -10,7 +10,7 @@ from constants import SCREEN_WIDTH, SCREEN_HEIGHT, SERVER_LISTEN_IP, SERVER_PORT
 import chatlib
 
 pygame.mixer.init()
-tiro_sound = pygame.mixer.Sound("sons/laser.wav")
+tiro_sound = pygame.mixer.Sound("sons/tiro_sound.mp3")
 
 
 class Server:

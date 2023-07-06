@@ -2,11 +2,15 @@ import pygame
 from constants import BLACK_PLANE_IMG, WHITE_PLANE_IMG, SCREEN_COLOR, FPS, WHITE, BLACK
 from jet import Jet
 
+
+
 class Game:
 
     def __init__(self, screen_width: int, screen_height: int, plane_positions: list = None):
         # Propriedades do jato
+      
         pygame.init()
+        
         self.screen_width = screen_width
         self.screen_height = screen_height
         self.planes = []
@@ -20,6 +24,7 @@ class Game:
 
     def initialise_jets(self, positions: list = None) -> None:
         # Inicializando os jatos
+ 
         image_black = pygame.image.load(BLACK_PLANE_IMG)
         image_white = pygame.image.load(WHITE_PLANE_IMG)
         if len(self.planes) != 0:
