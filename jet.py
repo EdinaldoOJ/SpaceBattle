@@ -1,8 +1,12 @@
 import math
 import random
 import pygame
+import os
+
 from math import sin, cos, radians
 from bullet import Bullet
+
+
 
 def rot_center(image, angle):
     # Gira uma imagem enquanto mantém seu centro e tamanho

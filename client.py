@@ -10,7 +10,12 @@ import chatlib
 import tkinter as tk
 from tkinter import messagebox
 import ipaddress
+import os
 
+
+pygame.mixer.init()
+espera = pygame.mixer.Sound("sons/espera.wav")
+gaming = pygame.mixer.Sound("sons/menu_theme.mp3")
 class Client:
     def __init__(self):
         self.__socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -61,7 +66,7 @@ class Client:
 
     def startup_screen(self):
         # Mostrando uma tela de inicialização solicitando que o player insira o IP e a PORTA do servidor
-
+        
         # Criando uma janela Tkinter
         root = tk.Tk()
         root.title("Game Startup")
@@ -176,20 +181,23 @@ class Client:
                 img = ImageLabel()
                 img.pack()
                 img.load(LOADING_IMG)
-
+                espera.play()
+      
                 while True:
                     # Atualizando tela
                     waiting_screen.update()
                     waiting_screen.update_idletasks()
                     if result:  # Verificando se o servidor enviou uma mensagem inicial
                         waiting_screen.destroy()
-                        break
+                        break   
                     time.sleep(0.01)
 
+                gaming.play()
         bt = tk.Button(root, width=27, pady=7, text='Conectar', bg='black', fg='white', border=0,
                        font=('Calibri Bold', 14), command=connect_and_start)
         bt.pack()
         root.mainloop()
+        
 
     def disconnect(self):
         # Desconectando do servidor, fechando o socket e saindo do programa
