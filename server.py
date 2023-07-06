@@ -4,9 +4,14 @@ import threading
 import time
 import pygame
 import select
+import os
 from game import Game
 from constants import SCREEN_WIDTH, SCREEN_HEIGHT, SERVER_LISTEN_IP, SERVER_PORT, ROTATE_AMOUNT, FPS
 import chatlib
+
+pygame.mixer.init()
+tiro_sound = pygame.mixer.Sound("sons/laser.wav")
+
 
 class Server:
     def __init__(self):
@@ -69,6 +74,7 @@ class Server:
             self.start()
 
     def handle_client_key_down(self, client_socket: socket.socket, data: str) -> None:
+
         # Manipulando a mensagem quando o cliente pressiona uma tecla
         try:
             data = int(data)  # O valor deve estar no formato "int"
@@ -86,6 +92,7 @@ class Server:
             elif data == pygame.K_d:
                 self.game.planes[plane_num].rotate_amount = -ROTATE_AMOUNT
         if data == pygame.K_SPACE:  # A tecla de espaço (tiro) é válida para ambas as cores (dois players)
+                       
             if plane_num == 0:
                 if time.time() - self.last_shot_white < 1.5:  # Verificando se o jogador um já pode atirar novamente
                     return
@@ -97,6 +104,7 @@ class Server:
                 else:
                     self.last_shot_black = time.time()
             self.game.planes[plane_num].shoot()  # Atirando
+            tiro_sound.play() 
 
     def handle_client_key_up(self, client_socket: socket.socket, data: str) -> None:
         # Manipulando a mensagem de que o cliente liberou uma tecla
