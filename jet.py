@@ -21,25 +21,25 @@ class Jet:
     def __init__(self, screen_width: int, screen_height: int, plane_image: pygame.Surface, is_white: bool,
                  x: int = None, y: int = None):
         self.x = x
-        self.y = y
+        self.y = y # As coordenadas x e y do jato na tela.
         if x is None:
             self.x = random.randint(0, screen_width)
         if y is None:
             self.y = random.randint(0, screen_height)
-        self.image = plane_image
+        self.image = plane_image # A imagem do jato.
 
         self.screen_width = screen_width
-        self.screen_height = screen_height
+        self.screen_height = screen_height # A largura e altura da tela.
 
-        self.angle = 0
-        self.speed = 3
-        self.rotate_amount = 0
+        self.angle = 0 # O ângulo de rotação do jato.
+        self.speed = 3 # A velocidade do jato.
+        self.rotate_amount = 0 # A quantidade de rotação a ser aplicada ao jato.
 
-        self.bullets = []
-        self.is_white = is_white
+        self.bullets = [] # Uma lista de balas disparadas pelo jato.
+        self.is_white = is_white #Um valor booleano indicando se o jato é branco ou não.
 
     def go_forward(self) -> None:
-        # Atualizando a posição dos aviões para avançar
+        # Atualiza a posição do jato com base na velocidade e ângulo de rotação.
         self.x += -self.speed * sin(radians(self.angle))
         self.y += -self.speed * cos(radians(self.angle))
 
@@ -95,7 +95,7 @@ class Jet:
                 enemy_bullets.remove(bullet)
 
     def shoot(self) -> None:
-        # Atirando uma bala
+        # Atirando uma bala a partir da posição atual do jato.
         bullet = Bullet(self.screen_width, self.screen_height, int(self.x + self.image.get_width() / 2),
                         int(self.y + self.image.get_height() / 2), self.angle, self.is_white)  # Criando a bala
         self.bullets.append(bullet)  # Adicionando bala na lista
@@ -121,7 +121,7 @@ class Jet:
         return description
 
     def new_bullet_from_dict(self, description_dict: dict) -> None:
-        # Criando uma nova bala com base nos parâmetros de um dicionário
+        # Cria uma nova bala com base em um dicionário de parâmetros e a adiciona à lista de balas.
         new_bullet = Bullet(screen_width=description_dict['screen_width'],
                             screen_height=description_dict['screen_height'],
                             x=description_dict['x'],

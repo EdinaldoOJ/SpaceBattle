@@ -1,5 +1,5 @@
 import json
-import socket
+import socket 
 import threading
 import time
 import pygame.event
@@ -18,6 +18,7 @@ import constants
 pygame.mixer.init()
 espera = pygame.mixer.Sound("sons/espera.wav")
 gaming = pygame.mixer.Sound("sons/menu_theme.mp3")
+
 class Client:
     def __init__(self):
         self.__socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -27,13 +28,13 @@ class Client:
         self.server_port = SERVER_PORT
 
     def build_and_send_message(self, command: str, data: str) -> None:
-        # Criando uma mensagem e enviando ao servidor
+        # Monta uma mensagem no formato específico do protocolo de comunicação e a envia para o servidor.
         message = chatlib.build_message(command, data) + chatlib.END_OF_MESSAGE
         self.__socket.send(message.encode())
         print("[SERVER] -> [{}]:  {}".format(self.__socket.getpeername(), message))
 
     def recv_message_and_parse(self) -> tuple:
-        # Recebendo uma mensagem do servidor e analisando
+        # Recebe uma mensagem do servidor, decodifica-a e a retorna na forma de comando e dados.
         try:
             full_msg = ''
             while True:  # Recebendo uma mensagem em um loop, um caractere por vez, até que o caractere final da mensagem apareça
@@ -48,7 +49,7 @@ class Client:
             return None, None
 
     def connect(self):
-        # Conectando ao servidor
+        # Conecta o cliente ao servidor especificado pelo IP e porta. Lida com possíveis erros e mensagens de resposta do servidor.
         try:
             self.__socket.connect((self.server_ip, self.server_port))
             cmd, data = self.recv_message_and_parse()
@@ -67,7 +68,7 @@ class Client:
             return "Erro de conexao!!! " + str(e)
 
     def startup_screen(self):
-        # Mostrando uma tela de inicialização solicitando que o player insira o IP e a PORTA do servidor
+        # Cria uma interface gráfica para a tela de inicialização do jogo, onde o jogador pode inserir o IP e a porta do servidor.
         
         # Criando uma janela Tkinter
         root = tk.Tk()
@@ -218,7 +219,7 @@ class Client:
         exit()
 
     def request_game_obj(self) -> None or int:
-        # Solicitando o status atual do jogo
+        # Solicita ao servidor o estado atual do jogo e recebe as informações sobre a pontuação e as posições dos aviões.
         try:
             self.build_and_send_message(chatlib.PROTOCOL_CLIENT['game_status_request'], '')
         except socket.error:
@@ -243,7 +244,7 @@ class Client:
             return None
 
     def request_initial_data(self) -> dict or None:
-        # Solicitando os dados iniciais do jogo para iniciar a partida
+        # Solicita ao servidor os dados iniciais do jogo, como largura e altura da tela e posições iniciais dos aviões.
         try:
             self.build_and_send_message(chatlib.PROTOCOL_CLIENT['initial_details'], '')
         except socket.error:
@@ -280,7 +281,7 @@ class Client:
             self.build_and_send_message(chatlib.PROTOCOL_CLIENT['key_up_msg'], str(key))
 
     def start(self):
-        # Iniciando e gerenciando o jogo
+        # Inicia e gerencia o jogo. Chama a tela de inicialização, solicita os dados iniciais do jogo, configura a janela do jogo e inicia um loop principal para atualizar o jogo.
         self.startup_screen()  # Mostrando a tela de inicialização e conectando ao servidor
         init_data = self.request_initial_data()  # Obtendo dados iniciais
         if not init_data:

@@ -6,6 +6,7 @@ BLACK_PLANE_IMG = os.path.join('images', 'black-jet.webp')
 WHITE_PLANE_IMG = os.path.join('images', 'white-jet.webp')
 LOADING_IMG = os.path.join('images', 'loading.gif')
 BACKGROUND_IMG = os.path.join('images', 'background.jpg')
+BACKGROUND_BATTLE = os.path.join('images', 'asteroids.jpeg')
 
 SCREEN_WIDTH = 500
 SCREEN_HEIGHT = 500

@@ -1,5 +1,5 @@
 import pygame
-from constants import BLACK_PLANE_IMG, WHITE_PLANE_IMG, SCREEN_COLOR, FPS, WHITE, BLACK
+from constants import BLACK_PLANE_IMG, WHITE_PLANE_IMG, SCREEN_COLOR, FPS, WHITE, BLACK, BACKGROUND_BATTLE
 from jet import Jet
 
 
@@ -44,11 +44,18 @@ class Game:
         # Criando a janela inicial do jogo
         screen_size = (self.screen_width, self.screen_height)
         self.screen = pygame.display.set_mode(screen_size)
-        self.screen.fill(SCREEN_COLOR)
 
     def draw(self):
         # Desenhando todos os elementos na tela
-        self.screen.fill(SCREEN_COLOR)
+        # Carregando a imagem de fundo
+        background_image = pygame.image.load(BACKGROUND_BATTLE)
+        screen_size = (self.screen_width, self.screen_height)
+        background_image = pygame.transform.scale(background_image, screen_size)
+
+        # Blitando a imagem de fundo na tela
+        self.screen.blit(background_image, (0, 0))
+
+        #self.screen.fill(SCREEN_COLOR)
         for jet in self.planes:
             jet.draw(self.screen)
         text1 = self.font.render(str(self.score_0), True, WHITE)

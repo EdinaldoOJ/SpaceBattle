@@ -6,14 +6,14 @@ class Bullet:
     def __init__(self, screen_width: int, screen_height: int, x: int, y: int, angle: float, is_white: bool):
         # Propriedades da Bala
         self.x = x
-        self.y = y
+        self.y = y # As coordenadas x e y da bala na tela.
         self.screen_width = screen_width
-        self.screen_height = screen_height
-        self.angle = angle
-        self.speed = 6
-        self.is_white = is_white
-        self.radius = 3
-        self.time_alive = 0
+        self.screen_height = screen_height # A largura e altura da tela.
+        self.angle = angle # O ângulo de direção da bala.
+        self.speed = 6 # A velocidade da bala.
+        self.is_white = is_white # Um valor booleano indicando se a bala é branca ou não.
+        self.radius = 3 # O raio da bala.
+        self.time_alive = 0 # O tempo de vida da bala.
 
     def keep_in_map(self) -> None:
         # Mantendo a bala dentro dos limites da tela
@@ -36,18 +36,18 @@ class Bullet:
         self.time_alive += 1
 
     def draw(self, screen: pygame.Surface) -> None:
-        # Desenhando o marcador na tela
+        # Desenhando a bala na tela
         if self.is_white:
             pygame.draw.circle(screen, (255, 255, 255), (self.x, self.y), self.radius)
         else:
             pygame.draw.circle(screen, (0, 0, 0), (self.x, self.y), self.radius)
 
     def to_dict(self):
-        # Convertendo os parâmetros do marcador em um dicionário
+        # Convertendo os parâmetros da bala em um dicionário
         return vars(self)
 
     def data_from_dict(self, description_dict: dict) -> None:
-        # Definindo os parâmetros de um marcador a partir de um dicionário
+        # Definindo os parâmetros de uma bala a partir de um dicionário
         self.x = description_dict['x']
         self.y = description_dict['y']
         self.angle = description_dict['angle']

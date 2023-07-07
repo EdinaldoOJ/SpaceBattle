@@ -1,14 +1,14 @@
 # Dicionários e funções para formatar e analisar mensagens e dados.
 
 # Constantes do protocolo
-CMD_FIELD_LENGTH = 16  # Comprimento exato do campo cmd (em bytes)
-LENGTH_FIELD_LENGTH = 4  # Comprimento exato do campo de comprimento (em bytes)
-MAX_DATA_LENGTH = 10 ** LENGTH_FIELD_LENGTH - 1  # Tamanho máximo do campo de dados de acordo com o protocolo
-MSG_HEADER_LENGTH = CMD_FIELD_LENGTH + 1 + LENGTH_FIELD_LENGTH + 1  # Tamanho exato do cabeçalho (campos CMD+LENGTH)
-MAX_MSG_LENGTH = MSG_HEADER_LENGTH + MAX_DATA_LENGTH  # Tamanho máximo da mensagem total
-DELIMITER = "|"  # Caractere delimitador no protocolo
-DATA_DELIMITER = "#"  # Delimitador na parte de dados da mensagem
-END_OF_MESSAGE = '$'
+CMD_FIELD_LENGTH = 16  # Comprimento exato do campo "cmd" (comando) no protocolo, em bytes.
+LENGTH_FIELD_LENGTH = 4  # Comprimento exato do campo de comprimento no protocolo, em bytes.
+MAX_DATA_LENGTH = 10 ** LENGTH_FIELD_LENGTH - 1  # Tamanho máximo do campo de dados de acordo com o protocolo. É calculado como 10 elevado ao valor de LENGTH_FIELD_LENGTH - 1.
+MSG_HEADER_LENGTH = CMD_FIELD_LENGTH + 1 + LENGTH_FIELD_LENGTH + 1  # Tamanho exato do cabeçalho da mensagem, que inclui os campos "cmd" e "length".
+MAX_MSG_LENGTH = MSG_HEADER_LENGTH + MAX_DATA_LENGTH  # Tamanho máximo da mensagem total, incluindo o cabeçalho e os dados.
+DELIMITER = "|"  # Caractere delimitador utilizado no protocolo para separar os campos da mensagem.
+DATA_DELIMITER = "#"  # Delimitador utilizado na parte de dados da mensagem para separar os campos de dados.
+END_OF_MESSAGE = '$'  # Caractere que indica o fim da mensagem.
 
 # Mensagens de protocolo
 # Neste dicionário teremos todos os nomes de comandos do cliente
